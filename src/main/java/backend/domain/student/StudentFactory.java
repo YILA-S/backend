@@ -33,9 +33,7 @@ public class StudentFactory {
     }
 
     private void validateEmail(String email) throws Exception {
-        if (!DATE_PATTERN.matcher(email).matches()){
-            throw new InvalidParameterException("Date format is invalid; Must be (yyyy-mm-dd)");
-        }
+
     }
 
     private void validatePhone(String phone) throws Exception {
