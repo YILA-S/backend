@@ -1,10 +1,14 @@
 package backend.domain.student;
 
+import backend.exception.InvalidParameterException;
+
 import java.time.LocalDate;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class StudentFactory {
+
+    private static Pattern Email_Pattern = Pattern.compile("");
     private static Pattern DATE_PATTERN = Pattern.compile(
             "^\\d{4}-\\d{2}-\\d{2}$");
 
@@ -24,12 +28,14 @@ public class StudentFactory {
 
     private void validateBirthDate(String stringBirthDate) throws Exception {
         if (!DATE_PATTERN.matcher(stringBirthDate).matches()){
-            throw new Exception("Format de date invalid (yyyy-mm-dd)");
+            throw new InvalidParameterException("Date format is invalid; Must be (yyyy-mm-dd)");
         }
     }
 
     private void validateEmail(String email) throws Exception {
-        // Unimplemented
+        if (!DATE_PATTERN.matcher(email).matches()){
+            throw new InvalidParameterException("Date format is invalid; Must be (yyyy-mm-dd)");
+        }
     }
 
     private void validatePhone(String phone) throws Exception {
