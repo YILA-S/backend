@@ -1,6 +1,9 @@
-package backend.infra.hibernate.student;
+package backend.services.student.infra;
 
-import backend.domain.student.Student;
+import backend.services.student.domain.Student;
+import backend.services.student.infra.StudentModel;
+
+import java.util.Optional;
 
 public class StudentModelAssembler {
 

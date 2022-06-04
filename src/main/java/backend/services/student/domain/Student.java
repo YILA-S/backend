@@ -1,4 +1,4 @@
-package backend.domain.student;
+package backend.services.student.domain;
 
 import java.time.LocalDate;
 

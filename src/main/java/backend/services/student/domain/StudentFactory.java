@@ -1,6 +1,7 @@
-package backend.domain.student;
+package backend.services.student.domain;
 
 import backend.exception.InvalidParameterException;
+import backend.services.student.domain.Student;
 
 import java.time.LocalDate;
 import java.util.UUID;

@@ -1,38 +1,38 @@
 package backend.controller;
 
-import backend.domain.student.IStudentRepository;
-import backend.domain.student.Student;
-import backend.domain.student.StudentFactory;
+import backend.exception.ItemNotFoundException;
+import backend.services.student.StudentService;
+import backend.services.student.domain.Student;
 import backend.exception.InvalidParameterException;
-import backend.infra.hibernate.student.HibernateStudentRepo;
-import backend.infra.hibernate.student.StudentModelAssembler;
+import backend.services.student.infra.StudentModel;
 import backend.ui.student.StudentRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.Optional;
 
 @RestController
 public class StudentController {
 
-    StudentFactory studentFactory = new StudentFactory();
-    IStudentRepository studentRepository = new HibernateStudentRepo();
-    StudentModelAssembler studentModelAssembler = new StudentModelAssembler();
+    @Resource(name = "studentService")
+    private StudentService studentService;
 
     @PostMapping("/student")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public String createStudent(@RequestBody StudentRequest studentRequest) throws Exception {
+    public Student createStudent(@RequestBody StudentRequest studentRequest) throws Exception {
         validateStudentRequest(studentRequest);
+        return studentService.createStudent(studentRequest);
+    }
 
-        Student newStudent = studentFactory.createStudent(
-                studentRequest.firstName, studentRequest.lastName, studentRequest.birthDate,
-                studentRequest.email, studentRequest.phone, studentRequest.address);
-
-
-        studentRepository.save(studentModelAssembler.createStudentModel(newStudent));
-
-        return newStudent.getId();
+    @GetMapping("/student/{id}")
+    @ResponseStatus(code = HttpStatus.FOUND)
+    public Optional<StudentModel> findStudentById(@PathVariable("id") String studentId){
+        var student = studentService.findStudentById(studentId);
+        if(student.isEmpty()) {
+            throw new ItemNotFoundException(String.format("Student with Id : %s not found", studentId));
+        }
+        return student;
     }
 
     private void validateStudentRequest(StudentRequest studentRequest) throws Exception{
@@ -43,5 +43,4 @@ public class StudentController {
             throw new InvalidParameterException("Student should have email or phone number");
         }
     }
-
 }
