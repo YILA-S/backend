@@ -21,7 +21,7 @@ public class StudentModel {
     public String firstName;
 
     @Column(
-            name = "lats_name",
+            name = "last_name",
             nullable = false,
             columnDefinition = "TEXT"
     )

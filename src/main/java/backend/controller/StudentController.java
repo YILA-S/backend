@@ -35,6 +35,13 @@ public class StudentController {
         return student;
     }
 
+    @DeleteMapping("/student")
+    @ResponseStatus(code = HttpStatus.OK)
+    public String deleteAllStudent(){
+        studentService.deleteAllStudent();
+        return "All student deleted";
+    }
+
     private void validateStudentRequest(StudentRequest studentRequest) throws Exception{
 
         if(studentRequest.birthDate == null || studentRequest.firstName == null || studentRequest.lastName == null){
@@ -43,4 +50,5 @@ public class StudentController {
             throw new InvalidParameterException("Student should have email or phone number");
         }
     }
+
 }

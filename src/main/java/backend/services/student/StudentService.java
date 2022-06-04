@@ -33,4 +33,9 @@ public class StudentService {
     public Optional<StudentModel> findStudentById(String studentId) {
         return studentRepository.findById(studentId);
     }
+
+
+    public void deleteAllStudent(){
+        studentRepository.deleteAll();
+    };
 }
