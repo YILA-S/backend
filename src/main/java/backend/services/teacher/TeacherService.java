@@ -1,4 +1,4 @@
-package backend.services.student;
+package backend.services.teacher;
 
 import backend.services.user.IUserService;
 import backend.services.user.domain.IUserRepository;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service("studentService")
-public class StudentService implements IUserService {
+@Service("teacherService")
+public class TeacherService implements IUserService {
     @Autowired
     private IUserRepository studentRepository;
     private UserModelAssembler userModelAssembler = new UserModelAssembler();
@@ -43,4 +43,5 @@ public class StudentService implements IUserService {
     public void deleteById(String userId){
         studentRepository.deleteById(userId);
     }
+
 }

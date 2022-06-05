@@ -1,6 +1,6 @@
-package backend.ui.student;
+package backend.ui;
 
-public class StudentRequest {
+public class UserRequest {
     public String firstName;
     public String lastName;
     public String birthDate;
