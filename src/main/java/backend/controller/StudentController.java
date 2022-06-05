@@ -1,33 +1,53 @@
 package backend.controller;
 
-import backend.domain.student.Student;
-import backend.domain.student.StudentFactory;
+import backend.exception.ItemNotFoundException;
+import backend.services.student.StudentService;
+import backend.services.student.domain.Student;
+import backend.exception.InvalidParameterException;
+import backend.services.student.infra.StudentModel;
 import backend.ui.student.StudentRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.Optional;
 
 @RestController
 public class StudentController {
 
-    StudentFactory studentFactory = new StudentFactory();
+    @Resource(name = "studentService")
+    private StudentService studentService;
 
     @PostMapping("/student")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public String welcome(@RequestBody StudentRequest studentRequest) throws Exception {
-
-        Student newStudent = studentFactory.createStudent(
-                studentRequest.firstName, studentRequest.lastName, studentRequest.birthDate,
-                studentRequest.email, studentRequest.phone, studentRequest.address);
-        return newStudent.getId();
+    public Student createStudent(@RequestBody StudentRequest studentRequest) throws Exception {
+        validateStudentRequest(studentRequest);
+        return studentService.createStudent(studentRequest);
     }
 
-    private void validateStudentRequest(StudentRequest studentRequest){
+    @GetMapping("/student/{id}")
+    @ResponseStatus(code = HttpStatus.FOUND)
+    public Optional<StudentModel> findStudentById(@PathVariable("id") String studentId){
+        var student = studentService.findStudentById(studentId);
+        if(student.isEmpty()) {
+            throw new ItemNotFoundException(String.format("Student with Id : %s not found", studentId));
+        }
+        return student;
+    }
 
-        if(studentRequest.birthDate == null || studentRequest.firstName == null || studentRequest.birthDate == null){
-            // raise corresponding error
+    @DeleteMapping("/student")
+    @ResponseStatus(code = HttpStatus.OK)
+    public String deleteAllStudent(){
+        studentService.deleteAllStudent();
+        return "All student deleted";
+    }
+
+    private void validateStudentRequest(StudentRequest studentRequest) throws Exception{
+
+        if(studentRequest.birthDate == null || studentRequest.firstName == null || studentRequest.lastName == null){
+            throw new InvalidParameterException("Student should have firstname, lastName and birthDate");
+        } else if (studentRequest.phone == null || studentRequest.email == null) {
+            throw new InvalidParameterException("Student should have email or phone number");
         }
     }
 
