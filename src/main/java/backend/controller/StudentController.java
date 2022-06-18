@@ -2,6 +2,7 @@ package backend.controller;
 
 import backend.exception.ItemNotFoundException;
 import backend.services.student.StudentService;
+import backend.services.student.infra.StudentModel;
 import backend.services.user.domain.User;
 import backend.exception.InvalidParameterException;
 import backend.services.user.infra.UserModel;
@@ -27,7 +28,7 @@ public class StudentController {
 
     @GetMapping("/student/{id}")
     @ResponseStatus(code = HttpStatus.FOUND)
-    public Optional<UserModel> findStudentById(@PathVariable("id") String studentId){
+    public Optional<StudentModel> findStudentById(@PathVariable("id") String studentId){
         var student = studentService.findById(studentId);
         if(student.isEmpty()) {
             throw new ItemNotFoundException(String.format("Student with Id : %s not found", studentId));
@@ -47,7 +48,7 @@ public class StudentController {
         if(userRequest.birthDate == null || userRequest.firstName == null || userRequest.lastName == null){
             throw new InvalidParameterException("Student should have firstname, lastName and birthDate");
         } else if (userRequest.phone == null || userRequest.email == null) {
-            throw new InvalidParameterException("Student should have email or phone number");
+            throw new InvalidParameterException("Student should have email and phone number");
         }
     }
 
