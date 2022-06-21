@@ -16,14 +16,14 @@ public class StudentService{
     @Autowired
     private IStudentRepository studentRepository;
     private StudentModelAssembler userModelAssembler = new StudentModelAssembler();
-    UserFactory userFactory = new UserFactory();
+    private UserFactory userFactory = new UserFactory();
 
     public User create(UserRequest userRequest) throws Exception {
 
         User newUser = userFactory.createStudent(
                 userRequest.firstName, userRequest.lastName, userRequest.birthDate,
                 userRequest.email, userRequest.phone, userRequest.address);
-        StudentModel newUserModel = userModelAssembler.createStudentModel(newUser);
+        StudentModel newUserModel = userModelAssembler.toStudentModel(newUser);
 
         studentRepository.save(newUserModel);
 

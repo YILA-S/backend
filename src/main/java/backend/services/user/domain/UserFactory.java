@@ -10,10 +10,10 @@ import static java.lang.Character.isDigit;
 
 public class UserFactory {
 
-    private static Pattern EMAIL_PATTERN = Pattern.compile
-            ("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
-    private static Pattern DATE_PATTERN = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
-    private static Pattern PHONE_PATTERN = Pattern.compile("^\\d{10}$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile
+            ("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z\\d-]+\\.)+[a-zA-Z]{2,6}$");
+    private static final Pattern DATE_PATTERN = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^\\d{10}$");
 
     public User createStudent(String firstName, String lastName,
                               String stringBirthDate, String email, String phone, String address) throws Exception {
@@ -26,8 +26,7 @@ public class UserFactory {
         String id = UUID.randomUUID().toString();
         LocalDate birthDate = LocalDate.parse(stringBirthDate);
 
-        User newUser = new User(id, firstName, lastName, birthDate, email, phone, address);
-        return newUser;
+        return new User(id, firstName, lastName, birthDate, email, phone, address);
     }
 
     private void validateBirthDate(String stringBirthDate) throws Exception {
@@ -55,12 +54,12 @@ public class UserFactory {
             throw new InvalidParameterException("Student firstName and lastName shouldn't be empty");
         }
         var arr = firstName.toCharArray();
-        for(int i = 0; i < arr.length; i++){
-            if(isDigit(arr[i])) throw new InvalidParameterException("FirsName should only contains non numeric values");
+        for (char value : arr) {
+            if (isDigit(value)) throw new InvalidParameterException("FirsName should only contains non numeric values");
         }
         arr = lastName.toCharArray();
-        for(int i = 0; i < arr.length; i++){
-            if(isDigit(arr[i])) throw new InvalidParameterException("LastName should only contains non numeric values");
+        for (char c : arr) {
+            if (isDigit(c)) throw new InvalidParameterException("LastName should only contains non numeric values");
         }
 
     }

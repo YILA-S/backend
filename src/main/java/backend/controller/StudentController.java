@@ -40,7 +40,7 @@ public class StudentController {
     @ResponseStatus(code = HttpStatus.OK)
     public String deleteAllStudent(){
         studentService.deleteAll();
-        return "All student deleted";
+        return "All students deleted";
     }
 
     private void validateStudentRequest(UserRequest userRequest) throws Exception{

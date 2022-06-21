@@ -3,7 +3,7 @@ package backend.services.student.infra;
 import backend.services.user.domain.User;
 
 public class StudentModelAssembler {
-    public StudentModel createStudentModel(User user){
+    public StudentModel toStudentModel(User user){
         StudentModel studentModel = new StudentModel();
 
         studentModel.id = user.getId();
