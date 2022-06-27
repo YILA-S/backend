@@ -6,13 +6,13 @@ import backend.services.teacher.domain.Teacher;
 import java.util.List;
 
 public class Section {
-    private String sectionId;
+    private Long sectionId;
     private String location;
     private Course course;
     private Teacher teacher;
     private List<Student> studentList;
 
-    public Section(String sectionId, String location, Course course) {
+    public Section(Long sectionId, String location, Course course) {
         this.sectionId = sectionId;
         this.location = location;
         this.course = course;

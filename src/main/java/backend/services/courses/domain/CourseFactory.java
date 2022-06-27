@@ -27,8 +27,8 @@ public class CourseFactory {
         return new Section(sectionRequest.sectionId, sectionRequest.location, wantedCourse);
     }
 
-    private void validateSectionRequest(String sectionId, String location) throws InvalidParameterException {
-        if(sectionId.length() == 0 || location.length() == 0){
+    private void validateSectionRequest(Long sectionId, String location) throws InvalidParameterException {
+        if(sectionId == null || location.length() == 0){
             throw new InvalidParameterException("Section should have a non empty sectionId and location");
         }
     }

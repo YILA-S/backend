@@ -4,13 +4,13 @@ import backend.exception.InvalidParameterException;
 import backend.exception.ItemNotFoundException;
 import backend.services.courses.CourseService;
 import backend.services.courses.domain.Course;
-import backend.services.courses.infra.CourseModel;
+import backend.services.courses.domain.Section;
 import backend.ui.CourseRequest;
+import backend.ui.SectionRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Optional;
 
 @RestController
 public class CourseController {
@@ -46,5 +46,11 @@ public class CourseController {
         if(courseRequest.description == null || courseRequest.title == null || courseRequest.code == null) {
             throw new InvalidParameterException("A course should have a code, a description and a title");
         }
+    }
+
+    @PostMapping("/course/{id}/section/")
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public Section createSection(@RequestBody SectionRequest sectionRequest) {
+        return null;
     }
 }

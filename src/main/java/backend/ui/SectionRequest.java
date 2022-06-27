@@ -1,7 +1,7 @@
 package backend.ui;
 
 public class SectionRequest {
-    public String sectionId;
+    public Long sectionId;
     public String location;
     public String courseId;
 }
