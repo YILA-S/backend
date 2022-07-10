@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master", "Developpe" ]
+    branches: [ "master", "dev" ]
   pull_request:
-    branches: [ "master", "Developpe" ]
+    branches: [ "master", "dev" ]
     types: [ opened, reopened ]
 
 
