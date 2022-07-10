@@ -13,11 +13,7 @@ import java.util.Optional;
 
 @Service("courseService")
 public class CourseService {
-
-    @Autowired
     private ICourseRepository courseRepository;
-
-    @Autowired
     private ISectionRepository sectionRepository;
     private CourseModelAssembler courseModelAssembler = new CourseModelAssembler();
     private CourseFactory courseFactory = new CourseFactory();
@@ -36,9 +32,7 @@ public class CourseService {
     }
 
     public Course findCourseById(String code){
-        var courseModel = courseRepository.findById(code);
-
-        return courseModelAssembler.toCourse(courseModel);
+        return courseModelAssembler.toCourse(courseRepository.findById(code));
     }
 
     public void deleteAllCourses() {

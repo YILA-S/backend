@@ -5,7 +5,6 @@ import backend.services.teacher.infra.TeacherModel;
 import backend.services.teacher.infra.TeacherModelAssembler;
 import backend.services.user.domain.User;
 import backend.services.user.domain.UserFactory;
-import backend.services.user.infra.UserModel;
 import backend.ui.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import java.util.Optional;
 
 @Service("teacherService")
 public class TeacherService {
-    @Autowired
     private ITeacherRepository teacherRepository;
     private TeacherModelAssembler teacherModelAssembler = new TeacherModelAssembler();
     UserFactory userFactory = new UserFactory();
@@ -31,7 +29,7 @@ public class TeacherService {
         return newUser;
     }
 
-    public Optional<TeacherModel> findById(String studentId) {
+    public TeacherModel findById(String studentId) {
         return teacherRepository.findById(studentId);
 
     }

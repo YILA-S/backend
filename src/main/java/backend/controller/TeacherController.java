@@ -26,9 +26,9 @@ public class TeacherController {
 
     @GetMapping("/teacher/{id}")
     @ResponseStatus(code = HttpStatus.FOUND)
-    public Optional<TeacherModel> findTeacherById(@PathVariable("id") String teacherId){
+    public TeacherModel findTeacherById(@PathVariable("id") String teacherId){
         var teacher = teacherService.findById(teacherId);
-        if(teacher.isEmpty()) {
+        if(teacher == null) {
             throw new ItemNotFoundException(String.format("Teacher with Id : %s not found", teacherId));
         }
         return teacher;

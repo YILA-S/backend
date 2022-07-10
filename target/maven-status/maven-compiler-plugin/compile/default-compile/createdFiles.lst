@@ -11,7 +11,6 @@ backend\services\student\StudentService.class
 backend\services\student\domain\IStudentRepository.class
 backend\services\courses\domain\ISectionRepository.class
 backend\controller\CourseController.class
-backend\services\user\infra\UserModel.class
 backend\exception\GlobalExceptionHandler.class
 backend\services\user\domain\UserFactory.class
 backend\services\courses\infra\SectionModel.class
@@ -23,7 +22,6 @@ backend\services\courses\domain\CourseFactory.class
 backend\services\courses\CourseService.class
 backend\ui\CourseRequest.class
 backend\services\courses\domain\Evaluation.class
-backend\services\user\domain\IUserRepository.class
 backend\exception\ItemNotFoundException.class
 backend\services\student\infra\StudentModel.class
 backend\controller\StudentController.class

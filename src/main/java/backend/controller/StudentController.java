@@ -5,7 +5,6 @@ import backend.services.student.StudentService;
 import backend.services.student.infra.StudentModel;
 import backend.services.user.domain.User;
 import backend.exception.InvalidParameterException;
-import backend.services.user.infra.UserModel;
 import backend.ui.UserRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +27,9 @@ public class StudentController {
 
     @GetMapping("/student/{id}")
     @ResponseStatus(code = HttpStatus.FOUND)
-    public Optional<StudentModel> findStudentById(@PathVariable("id") String studentId){
+    public StudentModel findStudentById(@PathVariable("id") String studentId){
         var student = studentService.findById(studentId);
-        if(student.isEmpty()) {
+        if(student == null) {
             throw new ItemNotFoundException(String.format("Student with Id : %s not found", studentId));
         }
         return student;

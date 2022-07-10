@@ -2,7 +2,6 @@ C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\bac
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\user\domain\User.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\teacher\infra\TeacherModelAssembler.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\exception\GlobalExceptionHandler.java
-C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\user\domain\IUserRepository.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\exception\InvalidParameterException.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\student\domain\IStudentRepository.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\courses\infra\CourseModelAssembler.java
@@ -29,7 +28,6 @@ C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\bac
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\courses\domain\ISectionRepository.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\ui\UserRequest.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\courses\CourseService.java
-C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\user\infra\UserModel.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\teacher\domain\ITeacherRepository.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\teacher\infra\TeacherModel.java
 C:\Users\Utilisateur\Desktop\project\PNM-SchoolManager\backend\src\main\java\backend\services\courses\domain\Section.java

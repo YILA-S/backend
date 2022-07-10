@@ -1,9 +1,6 @@
 package backend.services.courses.infra;
 
-import backend.exception.ItemNotFoundException;
 import backend.services.courses.domain.Course;
-
-import java.util.Optional;
 
 public class CourseModelAssembler {
 
@@ -17,10 +14,7 @@ public class CourseModelAssembler {
         return model;
     }
 
-    public Course toCourse(Optional<CourseModel> courseModel) {
-        if(courseModel.isPresent()){
-            return new Course(courseModel.get().title, courseModel.get().description, courseModel.get().course_id);
-        }
-        throw new ItemNotFoundException("Empty course model cannot be converted to course");
+    public Course toCourse(CourseModel courseModel) {
+        return new Course(courseModel.title, courseModel.description, courseModel.course_id);
     }
 }

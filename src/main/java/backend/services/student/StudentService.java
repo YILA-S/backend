@@ -6,14 +6,12 @@ import backend.services.student.infra.StudentModelAssembler;
 import backend.services.user.domain.User;
 import backend.services.user.domain.UserFactory;
 import backend.ui.UserRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service("studentService")
 public class StudentService{
-    @Autowired
     private IStudentRepository studentRepository;
     private StudentModelAssembler userModelAssembler = new StudentModelAssembler();
     private UserFactory userFactory = new UserFactory();
@@ -30,7 +28,7 @@ public class StudentService{
         return newUser;
     }
 
-    public Optional<StudentModel> findById(String studentId) {
+    public StudentModel findById(String studentId) {
         return studentRepository.findById(studentId);
 
     }
