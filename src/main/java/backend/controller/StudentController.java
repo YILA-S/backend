@@ -2,10 +2,11 @@ package backend.controller;
 
 import backend.exception.ItemNotFoundException;
 import backend.services.student.StudentService;
-import backend.services.student.domain.Student;
-import backend.exception.InvalidParameterException;
 import backend.services.student.infra.StudentModel;
-import backend.ui.student.StudentRequest;
+import backend.services.user.domain.User;
+import backend.exception.InvalidParameterException;
+import backend.services.user.infra.UserModel;
+import backend.ui.UserRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +21,15 @@ public class StudentController {
 
     @PostMapping("/student")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Student createStudent(@RequestBody StudentRequest studentRequest) throws Exception {
-        validateStudentRequest(studentRequest);
-        return studentService.createStudent(studentRequest);
+    public User createStudent(@RequestBody UserRequest userRequest) throws Exception {
+        validateStudentRequest(userRequest);
+        return studentService.create(userRequest);
     }
 
     @GetMapping("/student/{id}")
     @ResponseStatus(code = HttpStatus.FOUND)
     public Optional<StudentModel> findStudentById(@PathVariable("id") String studentId){
-        var student = studentService.findStudentById(studentId);
+        var student = studentService.findById(studentId);
         if(student.isEmpty()) {
             throw new ItemNotFoundException(String.format("Student with Id : %s not found", studentId));
         }
@@ -38,16 +39,16 @@ public class StudentController {
     @DeleteMapping("/student")
     @ResponseStatus(code = HttpStatus.OK)
     public String deleteAllStudent(){
-        studentService.deleteAllStudent();
-        return "All student deleted";
+        studentService.deleteAll();
+        return "All students deleted";
     }
 
-    private void validateStudentRequest(StudentRequest studentRequest) throws Exception{
+    private void validateStudentRequest(UserRequest userRequest) throws Exception{
 
-        if(studentRequest.birthDate == null || studentRequest.firstName == null || studentRequest.lastName == null){
+        if(userRequest.birthDate == null || userRequest.firstName == null || userRequest.lastName == null){
             throw new InvalidParameterException("Student should have firstname, lastName and birthDate");
-        } else if (studentRequest.phone == null || studentRequest.email == null) {
-            throw new InvalidParameterException("Student should have email or phone number");
+        } else if (userRequest.phone == null || userRequest.email == null) {
+            throw new InvalidParameterException("Student should have email and phone number");
         }
     }
 

@@ -1,19 +1,18 @@
 package backend.services.student.infra;
 
-import backend.services.student.domain.Student;
+import backend.services.user.domain.User;
 
 public class StudentModelAssembler {
-
-    public StudentModel createStudentModel(Student student){
+    public StudentModel toStudentModel(User user){
         StudentModel studentModel = new StudentModel();
 
-        studentModel.id = student.getId();
-        studentModel.firstName = student.getFirstName();
-        studentModel.lastName = student.getLastName();
-        studentModel.address = student.getAddress();
-        studentModel.birthDate = student.getBirthDate();
-        studentModel.email = student.getEmail();
-        studentModel.phone = student.getPhone();
+        studentModel.id = user.getId();
+        studentModel.firstName = user.getFirstName();
+        studentModel.lastName = user.getLastName();
+        studentModel.address = user.getAddress();
+        studentModel.birthDate = user.getBirthDate();
+        studentModel.email = user.getEmail();
+        studentModel.phone = user.getPhone();
 
         return studentModel;
     }
