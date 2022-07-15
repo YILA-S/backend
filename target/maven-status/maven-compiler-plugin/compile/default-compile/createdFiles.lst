@@ -20,6 +20,7 @@ backend\services\teacher\infra\TeacherModel.class
 backend\Application.class
 backend\services\courses\domain\CourseFactory.class
 backend\services\courses\CourseService.class
+backend\services\student\infra\MongoStudentRepo.class
 backend\ui\CourseRequest.class
 backend\services\courses\domain\Evaluation.class
 backend\exception\ItemNotFoundException.class
@@ -28,6 +29,7 @@ backend\controller\StudentController.class
 backend\services\teacher\domain\ITeacherRepository.class
 backend\services\teacher\infra\TeacherModelAssembler.class
 backend\services\student\domain\Student.class
+backend\controller\BaseController.class
 backend\services\courses\infra\CourseModel.class
 backend\ui\UserRequest.class
 backend\services\courses\domain\Section.class

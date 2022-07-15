@@ -1,18 +1,20 @@
 package backend.services.student;
 
-import backend.services.student.domain.IStudentRepository;
+import backend.exception.ItemNotFoundException;
+import backend.services.student.infra.MongoStudentRepo;
 import backend.services.student.infra.StudentModel;
 import backend.services.student.infra.StudentModelAssembler;
 import backend.services.user.domain.User;
 import backend.services.user.domain.UserFactory;
 import backend.ui.UserRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service("studentService")
 public class StudentService{
-    private IStudentRepository studentRepository;
+    @Autowired
+    private MongoStudentRepo studentRepository;
     private StudentModelAssembler userModelAssembler = new StudentModelAssembler();
     private UserFactory userFactory = new UserFactory();
 
@@ -29,8 +31,9 @@ public class StudentService{
     }
 
     public StudentModel findById(String studentId) {
-        return studentRepository.findById(studentId);
-
+        var finded = studentRepository.findById(studentId);
+        if(finded.isEmpty()) throw new ItemNotFoundException("Student with Id " + studentId + " not found" );
+        return finded.get();
     }
 
     public void deleteAll(){
