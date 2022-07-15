@@ -4,6 +4,8 @@ import backend.exception.InvalidParameterException;
 import backend.services.courses.domain.*;
 import backend.services.courses.infra.CourseModel;
 import backend.services.courses.infra.CourseModelAssembler;
+import backend.services.courses.infra.MongoCourseRepository;
+import backend.services.courses.infra.MongoSectionRepository;
 import backend.ui.CourseRequest;
 import backend.ui.SectionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,10 @@ import java.util.Optional;
 
 @Service("courseService")
 public class CourseService {
-    private ICourseRepository courseRepository;
-    private ISectionRepository sectionRepository;
+    @Autowired
+    private MongoCourseRepository courseRepository;
+    @Autowired
+    private MongoSectionRepository sectionRepository;
     private CourseModelAssembler courseModelAssembler = new CourseModelAssembler();
     private CourseFactory courseFactory = new CourseFactory();
 
@@ -32,7 +36,7 @@ public class CourseService {
     }
 
     public Course findCourseById(String code){
-        return courseModelAssembler.toCourse(courseRepository.findById(code));
+        return courseModelAssembler.toCourse(courseRepository.findById(code).get());
     }
 
     public void deleteAllCourses() {

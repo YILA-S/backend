@@ -1,6 +1,6 @@
 package backend.services.teacher;
 
-import backend.services.teacher.domain.ITeacherRepository;
+import backend.services.teacher.infra.MongoTeacherRepository;
 import backend.services.teacher.infra.TeacherModel;
 import backend.services.teacher.infra.TeacherModelAssembler;
 import backend.services.user.domain.User;
@@ -9,11 +9,11 @@ import backend.ui.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service("teacherService")
 public class TeacherService {
-    private ITeacherRepository teacherRepository;
+    @Autowired
+    private MongoTeacherRepository teacherRepository;
     private TeacherModelAssembler teacherModelAssembler = new TeacherModelAssembler();
     UserFactory userFactory = new UserFactory();
 
@@ -30,7 +30,7 @@ public class TeacherService {
     }
 
     public TeacherModel findById(String studentId) {
-        return teacherRepository.findById(studentId);
+        return teacherRepository.findById(studentId).get();
 
     }
 

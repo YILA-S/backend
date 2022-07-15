@@ -1,10 +1,18 @@
 package backend.services.courses.infra;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+
+
 import java.util.List;
 
+@Document("course")
 public class CourseModel {
-    public String course_id;
+    @Id
+    public String id;
     public String description;
     public String title;
-    public List<SectionModel> sectionLList;
+    @DocumentReference(collection = "section")
+    public List<SectionModel> sections;
 }
