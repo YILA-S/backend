@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -35,6 +36,13 @@ public class StudentController {
         return student;
     }
 
+    @GetMapping("/student")
+    @ResponseStatus(code = HttpStatus.FOUND)
+    public List<StudentModel> getAllStudent(){
+        var students = studentService.getAllStudents();
+        return students;
+    }
+
     @DeleteMapping("/student")
     @ResponseStatus(code = HttpStatus.OK)
     public String deleteAllStudent(){
@@ -43,7 +51,6 @@ public class StudentController {
     }
 
     private void validateStudentRequest(UserRequest userRequest) throws Exception{
-
         if(userRequest.birthDate == null || userRequest.firstName == null || userRequest.lastName == null){
             throw new InvalidParameterException("Student should have firstname, lastName and birthDate");
         } else if (userRequest.phone == null || userRequest.email == null) {

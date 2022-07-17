@@ -10,6 +10,8 @@ import backend.ui.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service("studentService")
 public class StudentService{
@@ -42,5 +44,9 @@ public class StudentService{
 
     public void deleteById(String userId){
         studentRepository.deleteById(userId);
+    }
+
+    public List<StudentModel> getAllStudents() {
+        return studentRepository.findAll();
     }
 }
