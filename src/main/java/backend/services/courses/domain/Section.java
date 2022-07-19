@@ -1,20 +1,25 @@
 package backend.services.courses.domain;
 
-import backend.services.student.domain.Student;
-import backend.services.teacher.domain.Teacher;
-
-import java.util.List;
-
 public class Section {
-    private Long sectionId;
+    private String sectionId;
     private String location;
-    private Course course;
-    private Teacher teacher;
-    private List<Student> studentList;
+    private String course;
 
-    public Section(Long sectionId, String location, Course course) {
+    public Section(String sectionId, String location, String course) {
         this.sectionId = sectionId;
         this.location = location;
         this.course = course;
+    }
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getCourse() {
+        return course;
     }
 }

@@ -7,12 +7,11 @@ backend\exception\InvalidParameterException.class
 backend\services\teacher\domain\Teacher.class
 backend\ui\SectionRequest.class
 backend\services\CoursePeriod\infra\CoursePeriodModelAssembler.class
+backend\services\courses\infra\SectionModelAssembler.class
 backend\services\student\infra\StudentModelAssembler.class
 backend\services\teacher\infra\MongoTeacherRepository.class
 backend\services\student\StudentService.class
-backend\services\courses\infra\MongoSectionRepository.class
 backend\services\student\domain\IStudentRepository.class
-backend\services\courses\domain\ISectionRepository.class
 backend\controller\CourseController.class
 backend\exception\GlobalExceptionHandler.class
 backend\services\user\domain\UserFactory.class
@@ -27,7 +26,6 @@ backend\services\courses\CourseService.class
 backend\services\student\infra\MongoStudentRepo.class
 backend\ui\CourseRequest.class
 backend\controller\CoursePeriodController.class
-backend\services\courses\domain\Evaluation.class
 backend\ui\CoursePeriodRequest.class
 backend\exception\ItemNotFoundException.class
 backend\services\CoursePeriod\domain\CoursePeriod.class

@@ -24,10 +24,10 @@ public class CourseFactory {
 
     public Section createSection(SectionRequest sectionRequest, Course wantedCourse) throws InvalidParameterException {
         validateSectionRequest(sectionRequest.sectionId, sectionRequest.location);
-        return new Section(sectionRequest.sectionId, sectionRequest.location, wantedCourse);
+        return new Section(sectionRequest.sectionId, sectionRequest.location, wantedCourse.getCourse_id());
     }
 
-    private void validateSectionRequest(Long sectionId, String location) throws InvalidParameterException {
+    private void validateSectionRequest(String sectionId, String location) throws InvalidParameterException {
         if(sectionId == null || location.length() == 0){
             throw new InvalidParameterException("Section should have a non empty sectionId and location");
         }
