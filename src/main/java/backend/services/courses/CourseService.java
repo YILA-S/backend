@@ -11,8 +11,6 @@ import backend.ui.SectionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service("courseService")
 public class CourseService {
     @Autowired
