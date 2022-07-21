@@ -28,11 +28,7 @@ public class CourseController {
     @GetMapping("/course/{id}")
     @ResponseStatus(code = HttpStatus.FOUND)
     public Course findByCourseId(@PathVariable("id") String courseId){
-        var course = courseService.findCourseById(courseId);
-        if(course == null) {
-            throw new ItemNotFoundException(String.format("Course with Id : %s not found", courseId));
-        }
-        return course;
+        return courseService.findCourseById(courseId);
     }
 
     @DeleteMapping("/course")
@@ -48,9 +44,9 @@ public class CourseController {
         }
     }
 
-    @PostMapping("/course/{id}/section/")
+    @PostMapping("/course/{id}/sections")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Section createSection(@RequestBody SectionRequest sectionRequest) {
-        return null;
+    public Section createSection(@RequestBody SectionRequest sectionRequest, @PathVariable("id") String courseId) throws InvalidParameterException {
+        return courseService.createSection(sectionRequest, courseId);
     }
 }
