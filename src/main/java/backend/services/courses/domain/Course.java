@@ -51,7 +51,7 @@ public class Course {
 
     public void sectionAlreadyExist(Section section) throws InvalidParameterException {
         boolean found = sectionList.stream()
-                .anyMatch(s -> s.getSectionId() == section.getSectionId());
+                .anyMatch(s -> s.getSectionId().equals(section.getSectionId()));
         if(found)
         throw new InvalidParameterException(String.format("Section with id: %s already exist", section.getSectionId()));
     }
