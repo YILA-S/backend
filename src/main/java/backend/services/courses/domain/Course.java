@@ -1,5 +1,7 @@
 package backend.services.courses.domain;
 
+import backend.exception.InvalidParameterException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Course {
         this.title = title;
         this.description = description;
         this.course_id = code;
-        this.sectionList = new ArrayList<Section>();
+        this.sectionList = new ArrayList<>();
     }
 
     public Course(String title, String description, String course_id, ArrayList<Section> sectionList) {
@@ -45,5 +47,12 @@ public class Course {
 
     public void addSection(Section section) {
         sectionList.add(section);
+    }
+
+    public void sectionAlreadyExist(Section section) throws InvalidParameterException {
+        boolean found = sectionList.stream()
+                .anyMatch(s -> s.getSectionId() == section.getSectionId());
+        if(found)
+        throw new InvalidParameterException(String.format("Section with id: %s already exist", section.getSectionId()));
     }
 }
