@@ -24,7 +24,7 @@ public class CourseFactory {
 
     public Section createSection(SectionRequest sectionRequest, Course wantedCourse) throws InvalidParameterException {
         validateSectionRequest(sectionRequest.sectionId, sectionRequest.location);
-        return new Section(sectionRequest.sectionId, sectionRequest.location, wantedCourse.getCourse_id());
+        return new Section(sectionRequest.sectionId, sectionRequest.location, wantedCourse.getId());
     }
 
     private void validateSectionRequest(String sectionId, String location) throws InvalidParameterException {

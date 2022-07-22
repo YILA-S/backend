@@ -1,4 +1,4 @@
-package backend.services.CoursePeriod.infra;
+package backend.services.coursePeriod.infra;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

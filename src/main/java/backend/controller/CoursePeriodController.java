@@ -1,8 +1,8 @@
 package backend.controller;
 
 import backend.exception.InvalidParameterException;
-import backend.services.CoursePeriod.CoursePeriodService;
-import backend.services.CoursePeriod.domain.CoursePeriod;
+import backend.services.coursePeriod.CoursePeriodService;
+import backend.services.coursePeriod.domain.CoursePeriod;
 import backend.ui.CoursePeriodRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

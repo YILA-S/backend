@@ -1,6 +1,6 @@
-package backend.services.CoursePeriod.infra;
+package backend.services.coursePeriod.infra;
 
-import backend.services.CoursePeriod.domain.CoursePeriod;
+import backend.services.coursePeriod.domain.CoursePeriod;
 
 import java.time.Year;
 
