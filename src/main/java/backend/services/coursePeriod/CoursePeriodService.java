@@ -1,10 +1,11 @@
-package backend.services.CoursePeriod;
+package backend.services.coursePeriod;
 
 import backend.exception.InvalidParameterException;
-import backend.services.CoursePeriod.domain.CoursePeriod;
-import backend.services.CoursePeriod.domain.CoursePeriodFactory;
-import backend.services.CoursePeriod.infra.CoursePeriodModelAssembler;
-import backend.services.CoursePeriod.infra.MongoCoursePeriodRepository;
+import backend.exception.ItemNotFoundException;
+import backend.services.coursePeriod.domain.CoursePeriod;
+import backend.services.coursePeriod.domain.CoursePeriodFactory;
+import backend.services.coursePeriod.infra.CoursePeriodModelAssembler;
+import backend.services.coursePeriod.infra.MongoCoursePeriodRepository;
 import backend.ui.CoursePeriodRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,15 @@ public class CoursePeriodService {
         periodRepository.save(periodAssembler.toModel(period));
 
         return period;
+    }
+
+    public CoursePeriod getCoursePeriodById(String periodId) {
+        var model = periodRepository.findById(periodId);
+
+        if(model.isEmpty())
+            throw new ItemNotFoundException(String.format("CoursePeriod with id: %s not found", periodId));
+
+        return periodAssembler.toCoursePeriod(model.get());
     }
 
 }

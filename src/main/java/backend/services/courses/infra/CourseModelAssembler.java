@@ -4,7 +4,6 @@ import backend.services.courses.domain.Course;
 import backend.services.courses.domain.Section;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class CourseModelAssembler {
@@ -15,7 +14,7 @@ public class CourseModelAssembler {
         CourseModel model = new CourseModel();
 
         model.title = course.getTitle();
-        model.id = course.getCourse_id();
+        model.id = course.getId();
         model.description = course.getDescription();
 
         model.sections = course.getSectionList().stream()

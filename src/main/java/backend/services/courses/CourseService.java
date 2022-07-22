@@ -43,6 +43,12 @@ public class CourseService {
         return courseModelAssembler.toCourse(model.get());
     }
 
+    public Course findByCourseIdAndBySection(String courseId, String sectionId){
+        var model = courseRepository.findByCourseIdAndBySection(courseId, sectionId);
+        if(model == null) throw new ItemNotFoundException(String.format("Course with id: %s and section: %s not found", courseId, sectionId));
+        return courseModelAssembler.toCourse(model);
+    }
+
     public void deleteAllCourses() {
         courseRepository.deleteAll();
     }

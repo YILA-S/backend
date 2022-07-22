@@ -1,4 +1,4 @@
-package backend.services.CoursePeriod.domain;
+package backend.services.coursePeriod.domain;
 
 import java.time.Year;
 

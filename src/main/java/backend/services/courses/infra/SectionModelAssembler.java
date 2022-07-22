@@ -7,7 +7,7 @@ public class SectionModelAssembler {
     public SectionModel toSectionModel(Section section){
         SectionModel model = new SectionModel();
 
-        model.id = section.getSectionId();
+        model.id = section.getId();
         model.location = section.getLocation();
         model.courseId = section.getCourse();
 

@@ -11,7 +11,7 @@ public class Section {
         this.course = course;
     }
 
-    public String getSectionId() {
+    public String getId() {
         return sectionId;
     }
 
