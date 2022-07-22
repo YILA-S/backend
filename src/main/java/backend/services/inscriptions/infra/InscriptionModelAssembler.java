@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 public class InscriptionModelAssembler {
     public InscriptionModel toModel(Inscription inscription) {
         InscriptionIdentification id = new InscriptionIdentification();
-        id.courseId = inscription.getCourse().getId();
-        id.coursePeriodId = inscription.getCoursePeriod().getId();
-        id.sectionId = inscription.getSection().getId();
+        id.courseId = inscription.getCourse();
+        id.coursePeriodId = inscription.getCoursePeriod();
+        id.sectionId = inscription.getSection();
 
         InscriptionModel model = new InscriptionModel();
         model.id = id;

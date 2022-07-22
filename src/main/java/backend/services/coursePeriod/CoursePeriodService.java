@@ -1,6 +1,7 @@
 package backend.services.coursePeriod;
 
 import backend.exception.InvalidParameterException;
+import backend.exception.ItemNotFoundException;
 import backend.services.coursePeriod.domain.CoursePeriod;
 import backend.services.coursePeriod.domain.CoursePeriodFactory;
 import backend.services.coursePeriod.infra.CoursePeriodModelAssembler;
@@ -22,6 +23,15 @@ public class CoursePeriodService {
         periodRepository.save(periodAssembler.toModel(period));
 
         return period;
+    }
+
+    public CoursePeriod getCoursePeriodById(String periodId) {
+        var model = periodRepository.findById(periodId);
+
+        if(model.isEmpty())
+            throw new ItemNotFoundException(String.format("CoursePeriod with id: %s not found", periodId));
+
+        return periodAssembler.toCoursePeriod(model.get());
     }
 
 }

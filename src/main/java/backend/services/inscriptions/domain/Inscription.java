@@ -9,9 +9,9 @@ import backend.services.teacher.domain.Teacher;
 import java.util.ArrayList;
 
 public class Inscription {
-    private Course course;
-    private Section section;
-    private CoursePeriod coursePeriod;
+    private String course;
+    private String section;
+    private String coursePeriod;
     private ArrayList<Student> students;
     private ArrayList<Teacher> teachers;
 
@@ -23,21 +23,19 @@ public class Inscription {
         return teachers;
     }
 
-    public Course getCourse() {
+    public String getCourse() {
         return course;
     }
 
-    public Section getSection() {
+    public String getSection() {
         return section;
     }
 
-    public CoursePeriod getCoursePeriod() {
+    public String getCoursePeriod() {
         return coursePeriod;
     }
 
-
-
-    public Inscription(Course course, Section section, CoursePeriod coursePeriod) {
+    public Inscription(String course, String section, String coursePeriod) {
         this.course = course;
         this.section = section;
         this.coursePeriod = coursePeriod;
