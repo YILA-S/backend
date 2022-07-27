@@ -1,6 +1,7 @@
 package backend.services.student;
 
 import backend.exception.ItemNotFoundException;
+import backend.services.student.domain.Student;
 import backend.services.student.infra.MongoStudentRepo;
 import backend.services.student.infra.StudentModel;
 import backend.services.student.infra.StudentModelAssembler;
@@ -32,10 +33,10 @@ public class StudentService{
         return newUser;
     }
 
-    public StudentModel findById(String studentId) {
+    public Student findById(String studentId) {
         var finded = studentRepository.findById(studentId);
-        if(finded.isEmpty()) throw new ItemNotFoundException("Student with Id " + studentId + " not found" );
-        return finded.get();
+        if(finded.isEmpty()) throw new ItemNotFoundException(String.format("Student with Id : %s not found", studentId));
+        return userModelAssembler.toStudent(finded.get());
     }
 
     public void deleteAll(){

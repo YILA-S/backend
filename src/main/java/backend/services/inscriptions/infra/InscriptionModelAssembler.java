@@ -2,9 +2,6 @@ package backend.services.inscriptions.infra;
 
 import backend.services.inscriptions.domain.Inscription;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 public class InscriptionModelAssembler {
     public InscriptionModel toModel(Inscription inscription) {
         InscriptionIdentification id = new InscriptionIdentification();
@@ -14,14 +11,16 @@ public class InscriptionModelAssembler {
 
         InscriptionModel model = new InscriptionModel();
         model.id = id;
-        model.students = inscription.getStudents()
-                .stream()
-                .map(s -> s.getId())
-                .collect(Collectors.toCollection(ArrayList::new));
-        model.teachers = inscription.getTeachers()
-                .stream()
-                .map(t -> t.getId())
-                .collect(Collectors.toCollection(ArrayList::new));
+        model.students = inscription.getStudents();
+        model.teachers = inscription.getTeachers();
         return model;
+    }
+
+    public Inscription toInscription(InscriptionModel model) {
+        Inscription inscription = new Inscription(model.id.courseId, model.id.sectionId, model.id.coursePeriodId);
+        inscription.setStudents(model.students);
+        inscription.setTeachers(model.teachers);
+
+        return inscription;
     }
 }
