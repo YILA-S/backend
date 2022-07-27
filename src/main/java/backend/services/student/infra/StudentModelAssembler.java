@@ -1,5 +1,6 @@
 package backend.services.student.infra;
 
+import backend.services.student.domain.Student;
 import backend.services.user.domain.User;
 
 public class StudentModelAssembler {
@@ -15,5 +16,11 @@ public class StudentModelAssembler {
         studentModel.phone = user.getPhone();
 
         return studentModel;
+    }
+
+    public Student toStudent(StudentModel studentModel) {
+        Student student = new Student(studentModel.id, studentModel.firstName, studentModel.lastName,
+                studentModel.birthDate, studentModel.email, studentModel.phone, studentModel.address);
+        return student;
     }
 }

@@ -1,5 +1,6 @@
 package backend.services.inscriptions.domain;
 
+import backend.exception.InvalidParameterException;
 import backend.services.coursePeriod.domain.CoursePeriod;
 import backend.services.courses.domain.Course;
 import backend.services.courses.domain.Section;
@@ -12,14 +13,14 @@ public class Inscription {
     private String course;
     private String section;
     private String coursePeriod;
-    private ArrayList<Student> students;
-    private ArrayList<Teacher> teachers;
+    private ArrayList<String> students;
+    private ArrayList<String> teachers;
 
-    public ArrayList<Student> getStudents() {
+    public ArrayList<String> getStudents() {
         return students;
     }
 
-    public ArrayList<Teacher> getTeachers() {
+    public ArrayList<String> getTeachers() {
         return teachers;
     }
 
@@ -43,19 +44,21 @@ public class Inscription {
         this.teachers = new ArrayList<>();
     }
 
-    public void setStudents(ArrayList<Student> students) {
+    public void setStudents(ArrayList<String> students) {
         this.students = students;
     }
 
-    public void setTeachers(ArrayList<Teacher> teachers) {
+    public void setTeachers(ArrayList<String> teachers) {
         this.teachers = teachers;
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
+    public void addStudent(Student student) throws InvalidParameterException {
+        if(students.stream().anyMatch(s -> s.equals(student.getId())))
+            throw new InvalidParameterException(String.format("Student with id: %s already subscribed", student.getId()));
+        students.add(student.getId());
     }
 
     public void addTeacher(Teacher teacher) {
-        teachers.add(teacher);
+        teachers.add(teacher.getId());
     }
 }
