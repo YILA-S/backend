@@ -32,7 +32,7 @@ public class InscriptionService {
         return inscription;
     }
 
-    public Inscription findByInscriptionCourseAndSectionAndPeriod(String courseId, String sectionId, String periodId){
+    public Inscription findByInscriptionCourseAndSectionAndPeriod(String courseId, String sectionId, String periodId) throws InvalidParameterException {
         var wantedInscription = inscriptionRepository.
                 findByInscriptionCourseAndSectionAndPeriod(courseId, sectionId, periodId);
         return inscriptionModelAssembler.toInscription(wantedInscription);
@@ -44,6 +44,16 @@ public class InscriptionService {
         if(wantedInscription == null) throw new ItemNotFoundException("The section specified doesn't exist");
 
         wantedInscription.addStudent(student);
+        inscriptionRepository.save(inscriptionModelAssembler.toModel(wantedInscription));
+
+        return wantedInscription;
+    }
+
+    public Inscription addTeacherToInscription(String courseId, String sectionId, String periodId, String teacherId) throws InvalidParameterException {
+        var wantedInscription = findByInscriptionCourseAndSectionAndPeriod(courseId, sectionId, periodId);
+        if(wantedInscription == null) throw new ItemNotFoundException("The section specified doesn't exist");
+
+        wantedInscription.setTeacher(teacherId);
         inscriptionRepository.save(inscriptionModelAssembler.toModel(wantedInscription));
 
         return wantedInscription;

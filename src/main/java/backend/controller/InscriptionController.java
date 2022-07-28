@@ -6,10 +6,9 @@ import backend.services.coursePeriod.CoursePeriodService;
 import backend.services.courses.CourseService;
 import backend.services.inscriptions.InscriptionService;
 import backend.services.inscriptions.domain.Inscription;
-import backend.services.inscriptions.domain.InscriptionFactory;
-import backend.services.inscriptions.infra.InscriptionModelAssembler;
 import backend.services.inscriptions.infra.MongoInscriptionRepository;
 import backend.services.student.StudentService;
+import backend.services.teacher.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +28,9 @@ public class InscriptionController {
     StudentService studentService;
     @Resource(name = "inscriptionService")
     InscriptionService inscriptionService;
+
+    @Resource(name = "teacherService")
+    private TeacherService teacherService;
 
     @Autowired
     MongoInscriptionRepository inscriptionRepository;
@@ -53,5 +55,17 @@ public class InscriptionController {
         var student = studentService.findById(studentId);
 
         return inscriptionService.addStudentToInscription(courseId, sectionId, periodId, student);
+    }
+
+    @PostMapping("/course/{courseId}/sections/{sectionId}/period/{periodId}/teacher/{teacherId}")
+    public Inscription addTeacherToInscription(@PathVariable("courseId") String courseId,
+                                               @PathVariable("sectionId") String sectionId,
+                                               @PathVariable("periodId") String periodId,
+                                               @PathVariable("teacherId") String teacherId) throws InvalidParameterException {
+        courseService.findByCourseIdAndBySection(courseId, sectionId);
+        periodService.getCoursePeriodById(periodId);
+        var teacher = teacherService.findById(teacherId);
+
+        return inscriptionService.addTeacherToInscription(courseId, sectionId, periodId, teacher.id);
     }
 }
