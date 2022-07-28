@@ -1,5 +1,6 @@
 package backend.services.inscriptions.infra;
 
+import backend.exception.InvalidParameterException;
 import backend.services.inscriptions.domain.Inscription;
 
 public class InscriptionModelAssembler {
@@ -12,14 +13,14 @@ public class InscriptionModelAssembler {
         InscriptionModel model = new InscriptionModel();
         model.id = id;
         model.students = inscription.getStudents();
-        model.teachers = inscription.getTeachers();
+        model.teacher = inscription.getTeacher();
         return model;
     }
 
-    public Inscription toInscription(InscriptionModel model) {
+    public Inscription toInscription(InscriptionModel model) throws InvalidParameterException {
         Inscription inscription = new Inscription(model.id.courseId, model.id.sectionId, model.id.coursePeriodId);
         inscription.setStudents(model.students);
-        inscription.setTeachers(model.teachers);
+        inscription.setTeacher(model.teacher);
 
         return inscription;
     }

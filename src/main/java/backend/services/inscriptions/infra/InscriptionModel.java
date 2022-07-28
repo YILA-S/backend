@@ -10,5 +10,5 @@ public class InscriptionModel {
     @Id
     public InscriptionIdentification id;
     public ArrayList<String> students;
-    public ArrayList<String> teachers;
+    public String teacher;
 }
