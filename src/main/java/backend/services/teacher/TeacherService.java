@@ -1,10 +1,11 @@
 package backend.services.teacher;
 
+import backend.services.role.Role;
 import backend.services.teacher.infra.MongoTeacherRepository;
 import backend.services.teacher.infra.TeacherModel;
 import backend.services.teacher.infra.TeacherModelAssembler;
-import backend.services.user.domain.User;
-import backend.services.user.domain.UserFactory;
+import backend.services.appuser.domain.AppUser;
+import backend.services.appuser.domain.AppUserFactory;
 import backend.ui.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,15 @@ public class TeacherService {
     @Autowired
     private MongoTeacherRepository teacherRepository;
     private TeacherModelAssembler teacherModelAssembler = new TeacherModelAssembler();
-    UserFactory userFactory = new UserFactory();
+    AppUserFactory userFactory = new AppUserFactory();
 
-    public User create(UserRequest userRequest) throws Exception {
+    public AppUser create(UserRequest userRequest) throws Exception {
 
-        User newUser = userFactory.createStudent(
-                userRequest.firstName, userRequest.lastName, userRequest.birthDate,
-                userRequest.email, userRequest.phone, userRequest.address);
+        AppUser newUser = userFactory.create(
+                userRequest.lastName, userRequest.birthDate, userRequest.email,
+                userRequest.phone, userRequest.address, userRequest.firstName, userRequest.password
+        );
+        newUser.addRole(Role.Teacher);
         TeacherModel newUserModel = teacherModelAssembler.createTeacherModel(newUser);
 
         teacherRepository.save(newUserModel);

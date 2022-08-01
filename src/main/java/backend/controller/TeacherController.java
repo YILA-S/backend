@@ -4,13 +4,12 @@ import backend.exception.InvalidParameterException;
 import backend.exception.ItemNotFoundException;
 import backend.services.teacher.TeacherService;
 import backend.services.teacher.infra.TeacherModel;
-import backend.services.user.domain.User;
+import backend.services.appuser.domain.AppUser;
 import backend.ui.UserRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Optional;
 
 @RestController
 public class TeacherController {
@@ -19,7 +18,7 @@ public class TeacherController {
 
     @PostMapping("/teacher")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public User createTeacher(@RequestBody UserRequest userRequest) throws Exception {
+    public AppUser createTeacher(@RequestBody UserRequest userRequest) throws Exception {
         validateTeacherRequest(userRequest);
         return teacherService.create(userRequest);
     }
