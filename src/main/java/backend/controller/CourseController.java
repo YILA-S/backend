@@ -46,7 +46,8 @@ public class CourseController {
 
     @PostMapping("/course/{id}/sections")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Section createSection(@RequestBody SectionRequest sectionRequest, @PathVariable("id") String courseId) throws InvalidParameterException {
+    public Section createSection(@RequestBody SectionRequest sectionRequest, @PathVariable("id") String courseId)
+            throws InvalidParameterException {
         return courseService.createSection(sectionRequest, courseId);
     }
 }

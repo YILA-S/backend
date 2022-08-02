@@ -43,7 +43,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             throws IOException, ServletException {
         User user = (User)authentication.getPrincipal();
 
-        // Must place secret in an env variable as crypted.
+        // Must place secret in an env variable as encrypted.
         Algorithm algorithm = Algorithm.HMAC256("testSecurity".getBytes());
 
         String access_token = JWT.create()
