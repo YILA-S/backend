@@ -10,6 +10,7 @@ import backend.services.appuser.domain.AppUser;
 import backend.services.appuser.domain.AppUserFactory;
 import backend.ui.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,7 @@ import java.util.List;
 
 
 @Service("studentService")
+@Primary
 public class StudentService implements UserDetailsService {
     @Autowired
     private MongoStudentRepo studentRepository;
@@ -35,7 +37,7 @@ public class StudentService implements UserDetailsService {
                 userRequest.lastName, userRequest.birthDate, userRequest.email, userRequest.phone,
                 userRequest.address, userRequest.firstName, userRequest.password
         );
-        newUser.addRole(Role.Student);
+        newUser.addRole(Role.STUDENT);
         StudentModel newUserModel = userModelAssembler.toStudentModel(newUser);
 
         studentRepository.save(newUserModel);
@@ -47,6 +49,12 @@ public class StudentService implements UserDetailsService {
         var found = studentRepository.findById(studentId);
         if(found.isEmpty()) throw new ItemNotFoundException(String.format("Student with Id : %s not found", studentId));
         return userModelAssembler.toStudent(found.get());
+    }
+
+    public Student findByEmail(String email) {
+        var found = studentRepository.findByEmail(email);
+        if(found == null) throw new ItemNotFoundException(String.format("Student with email : %s not found", email));
+        return userModelAssembler.toStudent(found);
     }
 
     public void deleteAll(){
@@ -65,7 +73,7 @@ public class StudentService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // Username equivalent to email !!
-        Student student = studentRepository.findByEmail(username);
+        Student student = findByEmail(username);
         if(student == null)
             throw new ItemNotFoundException(String.format("User with userName %s not found", username));
 

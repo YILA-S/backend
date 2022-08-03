@@ -44,7 +44,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         User user = (User)authentication.getPrincipal();
 
         // Must place secret in an env variable as encrypted.
-        Algorithm algorithm = Algorithm.HMAC256("testSecurity".getBytes());
+        Algorithm algorithm = FilterUtil.getAlgorithm();
 
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
@@ -61,6 +61,5 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         response.setHeader("access_token", access_token);
         response.setHeader("refresh_token", refresh_token);
-
     }
 }

@@ -1,6 +1,7 @@
 package backend.security;
 
 import backend.filter.CustomAuthenticationFilter;
+import backend.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.*;
 
@@ -33,10 +35,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/").permitAll();
-        http.authorizeRequests().antMatchers(POST, "/course").hasAnyAuthority("Admin");
-        http.authorizeRequests().antMatchers(DELETE, "/course/**").hasAnyAuthority("Admin");
-        http.authorizeRequests().antMatchers(POST, "/course/**").hasAnyAuthority("Admin", "Teacher");
+        http.authorizeRequests().antMatchers(GET, "/student").hasAnyRole("STUDENT");
+        http.authorizeRequests().antMatchers("/student/**").permitAll();
+        http.authorizeRequests().antMatchers("/teacher/**").permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
