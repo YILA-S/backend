@@ -4,5 +4,5 @@ import backend.services.teacher.domain.Teacher;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface MongoTeacherRepository  extends MongoRepository<TeacherModel, String> {
-    Teacher findByEmail(String email);
+    TeacherModel findByEmail(String email);
 }

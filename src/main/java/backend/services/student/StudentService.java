@@ -10,7 +10,6 @@ import backend.services.appuser.domain.AppUser;
 import backend.services.appuser.domain.AppUserFactory;
 import backend.ui.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +23,6 @@ import java.util.List;
 
 
 @Service("studentService")
-@Primary
 public class StudentService implements UserDetailsService {
     @Autowired
     private MongoStudentRepo studentRepository;

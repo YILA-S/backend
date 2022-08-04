@@ -1,6 +1,8 @@
 package backend.services.teacher.infra;
 
 import backend.services.appuser.domain.AppUser;
+import backend.services.student.domain.Student;
+import backend.services.teacher.domain.Teacher;
 
 public class TeacherModelAssembler{
     public TeacherModel createTeacherModel(AppUser newUser) {
@@ -16,5 +18,12 @@ public class TeacherModelAssembler{
         teacherModel.password = newUser.getPassword();
 
         return teacherModel;
+    }
+
+    public Teacher toTeacher(TeacherModel found) {
+        Teacher teacher = new Teacher(found.id, found.firstName, found.lastName,
+                found.birthDate, found.email, found.phone, found.address, found.password);
+        teacher.setRoles(found.roles);
+        return teacher;
     }
 }

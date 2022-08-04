@@ -23,6 +23,7 @@ import java.util.Collection;
 
 
 @Service("teacherService")
+@Primary
 public class TeacherService implements UserDetailsService {
     @Autowired
     private MongoTeacherRepository teacherRepository;
@@ -48,6 +49,14 @@ public class TeacherService implements UserDetailsService {
 
     }
 
+    public Teacher findByEmail(String email) {
+        var found = teacherRepository.findByEmail(email);
+
+        if(found == null) throw new ItemNotFoundException(String.format("Teacher with email : %s not found", email));
+
+        return teacherModelAssembler.toTeacher(found);
+    }
+
     public void deleteAll(){
         teacherRepository.deleteAll();
     };
@@ -60,7 +69,7 @@ public class TeacherService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // Username equivalent to email !!
-        Teacher teacher = teacherRepository.findByEmail(username);
+        Teacher teacher = findByEmail(username);
         if(teacher == null)
             throw new ItemNotFoundException(String.format("User with userName %s not found", username));
 
