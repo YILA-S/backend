@@ -1,16 +1,18 @@
 package backend.controller;
 
-import backend.exception.ItemNotFoundException;
 import backend.services.student.StudentService;
 import backend.services.student.domain.Student;
 import backend.services.student.infra.StudentModel;
-import backend.services.user.domain.User;
+import backend.services.appuser.domain.AppUser;
 import backend.exception.InvalidParameterException;
 import backend.ui.UserRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.annotation.Resource;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -21,16 +23,20 @@ public class StudentController {
 
     @PostMapping("/student")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public User createStudent(@RequestBody UserRequest userRequest) throws Exception {
+    public ResponseEntity<AppUser> createStudent(@RequestBody UserRequest userRequest) throws Exception {
         validateStudentRequest(userRequest);
-        return studentService.create(userRequest);
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/student").toString());
+
+        return ResponseEntity.created(uri).body(studentService.create(userRequest));
     }
 
     @GetMapping("/student/{id}")
     @ResponseStatus(code = HttpStatus.FOUND)
-    public Student findStudentById(@PathVariable("id") String studentId){
+    public ResponseEntity<AppUser> findStudentById(@PathVariable("id") String studentId){
         var student = studentService.findById(studentId);
-        return student;
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/student").toString());
+
+        return ResponseEntity.created(uri).body(student);
     }
 
     @GetMapping("/student")

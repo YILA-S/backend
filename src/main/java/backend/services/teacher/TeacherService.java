@@ -1,27 +1,42 @@
 package backend.services.teacher;
 
+import backend.exception.ItemNotFoundException;
+import backend.services.role.Role;
+import backend.services.teacher.domain.Teacher;
 import backend.services.teacher.infra.MongoTeacherRepository;
 import backend.services.teacher.infra.TeacherModel;
 import backend.services.teacher.infra.TeacherModelAssembler;
-import backend.services.user.domain.User;
-import backend.services.user.domain.UserFactory;
+import backend.services.appuser.domain.AppUser;
+import backend.services.appuser.domain.AppUserFactory;
 import backend.ui.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 @Service("teacherService")
-public class TeacherService {
+@Primary
+public class TeacherService implements UserDetailsService {
     @Autowired
     private MongoTeacherRepository teacherRepository;
     private TeacherModelAssembler teacherModelAssembler = new TeacherModelAssembler();
-    UserFactory userFactory = new UserFactory();
+    AppUserFactory userFactory = new AppUserFactory();
 
-    public User create(UserRequest userRequest) throws Exception {
+    public AppUser create(UserRequest userRequest) throws Exception {
 
-        User newUser = userFactory.createStudent(
-                userRequest.firstName, userRequest.lastName, userRequest.birthDate,
-                userRequest.email, userRequest.phone, userRequest.address);
+        AppUser newUser = userFactory.create(
+                userRequest.lastName, userRequest.birthDate, userRequest.email,
+                userRequest.phone, userRequest.address, userRequest.firstName, userRequest.password
+        );
+        newUser.addRole(Role.TEACHER);
         TeacherModel newUserModel = teacherModelAssembler.createTeacherModel(newUser);
 
         teacherRepository.save(newUserModel);
@@ -34,6 +49,14 @@ public class TeacherService {
 
     }
 
+    public Teacher findByEmail(String email) {
+        var found = teacherRepository.findByEmail(email);
+
+        if(found == null) throw new ItemNotFoundException(String.format("Teacher with email : %s not found", email));
+
+        return teacherModelAssembler.toTeacher(found);
+    }
+
     public void deleteAll(){
         teacherRepository.deleteAll();
     };
@@ -42,4 +65,18 @@ public class TeacherService {
         teacherRepository.deleteById(userId);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        // Username equivalent to email !!
+        Teacher teacher = findByEmail(username);
+        if(teacher == null)
+            throw new ItemNotFoundException(String.format("User with userName %s not found", username));
+
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        teacher.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.name())));
+
+        return new User(teacher.getEmail(), teacher.getPassword(), authorities);
+
+    }
 }
