@@ -47,9 +47,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication result = null;
 
-        try {
-            result = providerManager.authenticate(authenticationToken);
-        } catch (Exception e) {}
+        for (AuthenticationProvider provider : providerManager.getProviders()) {
+
+            if (!provider.supports(authenticationToken.getClass())) {
+                continue;
+            }
+            try {
+                result = provider.authenticate(authenticationToken);
+            } catch (Exception e) {}
+        }
         if(result == null) throw new BadCredentialsException("Username or password is incorrect");
 
         return result;
