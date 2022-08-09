@@ -1,4 +1,4 @@
-package backend.filter;
+package backend.security.filter;
 
 import backend.exception.ErrorDetails;
 import com.auth0.jwt.JWT;
