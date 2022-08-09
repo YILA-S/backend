@@ -10,6 +10,7 @@ import backend.services.appuser.domain.AppUser;
 import backend.services.appuser.domain.AppUserFactory;
 import backend.ui.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,8 +24,8 @@ import java.util.Collection;
 
 
 @Service("teacherService")
-@Primary
-public class TeacherService implements UserDetailsService {
+@Qualifier("teacherDetailService")
+public class TeacherService implements UserDetailsService{
     @Autowired
     private MongoTeacherRepository teacherRepository;
     private TeacherModelAssembler teacherModelAssembler = new TeacherModelAssembler();
@@ -45,15 +46,17 @@ public class TeacherService implements UserDetailsService {
     }
 
     public TeacherModel findById(String studentId) {
-        return teacherRepository.findById(studentId).get();
+        var model = teacherRepository.findById(studentId);
+        if (model.isEmpty()) {
+            throw new ItemNotFoundException(String.format("Teacher with id : %s not found", studentId));
+        }
+        return model.get();
 
     }
 
     public Teacher findByEmail(String email) {
         var found = teacherRepository.findByEmail(email);
-
         if(found == null) throw new ItemNotFoundException(String.format("Teacher with email : %s not found", email));
-
         return teacherModelAssembler.toTeacher(found);
     }
 
@@ -64,6 +67,7 @@ public class TeacherService implements UserDetailsService {
     public void deleteById(String userId){
         teacherRepository.deleteById(userId);
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

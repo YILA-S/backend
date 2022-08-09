@@ -1,7 +1,7 @@
 package backend.controller;
 
 import backend.exception.ErrorDetails;
-import backend.filter.FilterUtil;
+import backend.security.filter.FilterUtil;
 import backend.services.role.Role;
 import backend.services.teacher.TeacherService;
 import backend.services.teacher.domain.Teacher;
@@ -11,11 +11,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;

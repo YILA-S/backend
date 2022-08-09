@@ -1,4 +1,4 @@
-package backend.filter;
+package backend.security.filter;
 
 import com.auth0.jwt.algorithms.Algorithm;
 
