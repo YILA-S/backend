@@ -1,8 +1,11 @@
 package backend.controller;
 
 import backend.exception.ErrorDetails;
+import backend.exception.ItemNotFoundException;
 import backend.security.filter.FilterUtil;
+import backend.services.appuser.domain.AppUser;
 import backend.services.role.Role;
+import backend.services.student.StudentService;
 import backend.services.teacher.TeacherService;
 import backend.services.teacher.domain.Teacher;
 import com.auth0.jwt.JWT;
@@ -11,6 +14,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +36,8 @@ public class BaseController {
     @Resource(name = "teacherService")
     TeacherService teacherService;
 
+    @Resource(name = "studentService")
+    StudentService studentService;
 
     @GetMapping("/")
     @ResponseStatus(code = HttpStatus.OK)
@@ -50,15 +56,32 @@ public class BaseController {
                 DecodedJWT decodedJWT = verifier.verify(token);
                 String username = decodedJWT.getSubject();
 
-                Teacher teacher = teacherService.findByEmail(username);
+                AppUser user = null;
+
+                try {
+                    user = teacherService.findByEmail(username);
+                } catch (ItemNotFoundException e) {}
+
+                if (user == null) {
+                    try {
+                        user = studentService.findByEmail(username);
+                    } catch (ItemNotFoundException e) {}
+                }
+
+                if (user == null) {
+                    response.setStatus(301);
+                    throw new BadCredentialsException("Invalid token provided");
+                }
+
                 String access_token = JWT.create()
-                        .withSubject(teacher.getEmail())
+                        .withSubject(user.getEmail())
                         .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", teacher.getRoles().stream().map(Role::name).collect(Collectors.toList()))
+                        .withClaim("roles", user.getRoles().stream().map(Role::name).collect(Collectors.toList()))
                         .sign(algorithm);
 
                 response.setHeader("access_token", access_token);
+                response.setHeader("refresh_token", token);
             }
             catch (Exception e) {
                 ErrorDetails details = new ErrorDetails(new Date(), e.getMessage(), request.getRequestURI());
