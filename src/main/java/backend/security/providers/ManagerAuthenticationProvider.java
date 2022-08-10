@@ -1,6 +1,6 @@
 package backend.security.providers;
 
-import backend.services.teacher.TeacherService;
+import backend.services.manager.ManagerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,11 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeacherAuthenticationProvider implements AuthenticationProvider {
-
+public class ManagerAuthenticationProvider implements AuthenticationProvider {
     @Autowired
-    private TeacherService teacherService;
-
+    private ManagerServices managerServices;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
@@ -25,9 +23,7 @@ public class TeacherAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        UserDetails user = teacherService.loadUserByUsername(username);
-
-        // Need to encode password before checking
+        UserDetails user = managerServices.loadUserByUsername(username);
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Invalid username or password!");
         }

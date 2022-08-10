@@ -4,6 +4,7 @@ import backend.exception.ErrorDetails;
 import backend.exception.ItemNotFoundException;
 import backend.security.filter.FilterUtil;
 import backend.services.appuser.domain.AppUser;
+import backend.services.manager.ManagerServices;
 import backend.services.role.Role;
 import backend.services.student.StudentService;
 import backend.services.teacher.TeacherService;
@@ -39,6 +40,9 @@ public class BaseController {
     @Resource(name = "studentService")
     StudentService studentService;
 
+    @Resource(name = "managerService")
+    ManagerServices managerServices;
+
     @GetMapping("/")
     @ResponseStatus(code = HttpStatus.OK)
     public String welcome() {
@@ -65,6 +69,12 @@ public class BaseController {
                 if (user == null) {
                     try {
                         user = studentService.findByEmail(username);
+                    } catch (ItemNotFoundException e) {}
+                }
+
+                if (user == null) {
+                    try {
+                        user = managerServices.findByEmail(username);
                     } catch (ItemNotFoundException e) {}
                 }
 

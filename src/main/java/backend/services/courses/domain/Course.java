@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
-    private String title;
-    private String description;
-    private String course_id;
+    private final String title;
+    private final String description;
+    private final String course_id;
     private ArrayList<Section> sectionList;
 
     public Course(String title, String description, String code) {

@@ -15,8 +15,8 @@ public class CoursePeriodService {
 
     @Autowired
     private MongoCoursePeriodRepository periodRepository;
-    private CoursePeriodModelAssembler periodAssembler = new CoursePeriodModelAssembler();
-    private CoursePeriodFactory periodFactory = new CoursePeriodFactory();
+    private final CoursePeriodModelAssembler periodAssembler = new CoursePeriodModelAssembler();
+    private final CoursePeriodFactory periodFactory = new CoursePeriodFactory();
 
     public CoursePeriod createCoursePeriod(CoursePeriodRequest periodRequest) throws InvalidParameterException {
         CoursePeriod period = periodFactory.createCoursePeriod(periodRequest.year, periodRequest.quarter);

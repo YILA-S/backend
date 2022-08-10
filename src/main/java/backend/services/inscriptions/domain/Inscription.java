@@ -6,9 +6,9 @@ import backend.services.student.domain.Student;
 import java.util.ArrayList;
 
 public class Inscription {
-    private String course;
-    private String section;
-    private String coursePeriod;
+    private final String course;
+    private final String section;
+    private final String coursePeriod;
     private ArrayList<String> students;
     private String teacher;
 

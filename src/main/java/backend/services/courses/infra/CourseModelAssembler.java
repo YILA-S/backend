@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class CourseModelAssembler {
 
-    private SectionModelAssembler sectionModelAssembler = new SectionModelAssembler();
+    private final SectionModelAssembler sectionModelAssembler = new SectionModelAssembler();
 
     public CourseModel toCourseModel(Course course){
         CourseModel model = new CourseModel();

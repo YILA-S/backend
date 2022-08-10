@@ -28,7 +28,7 @@ import java.util.Collection;
 public class TeacherService implements UserDetailsService{
     @Autowired
     private MongoTeacherRepository teacherRepository;
-    private TeacherModelAssembler teacherModelAssembler = new TeacherModelAssembler();
+    private final TeacherModelAssembler teacherModelAssembler = new TeacherModelAssembler();
     AppUserFactory userFactory = new AppUserFactory();
 
     public AppUser create(UserRequest userRequest) throws Exception {
@@ -62,7 +62,7 @@ public class TeacherService implements UserDetailsService{
 
     public void deleteAll(){
         teacherRepository.deleteAll();
-    };
+    }
 
     public void deleteById(String userId){
         teacherRepository.deleteById(userId);

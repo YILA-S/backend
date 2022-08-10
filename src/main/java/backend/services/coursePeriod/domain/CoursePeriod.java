@@ -3,9 +3,9 @@ package backend.services.coursePeriod.domain;
 import java.time.Year;
 
 public class CoursePeriod {
-    private Quarter quarter;
-    private Year year;
-    private String id;
+    private final Quarter quarter;
+    private final Year year;
+    private final String id;
 
     public CoursePeriod(Quarter quarter, Year year) {
         this.quarter = quarter;

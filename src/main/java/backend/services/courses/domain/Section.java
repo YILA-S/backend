@@ -1,9 +1,9 @@
 package backend.services.courses.domain;
 
 public class Section {
-    private String sectionId;
-    private String location;
-    private String course;
+    private final String sectionId;
+    private final String location;
+    private final String course;
 
     public Section(String sectionId, String location, String course) {
         this.sectionId = sectionId;

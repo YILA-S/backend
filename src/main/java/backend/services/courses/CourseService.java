@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 public class CourseService {
     @Autowired
     private MongoCourseRepository courseRepository;
-    private CourseModelAssembler courseModelAssembler = new CourseModelAssembler();
-    private CourseFactory courseFactory = new CourseFactory();
+    private final CourseModelAssembler courseModelAssembler = new CourseModelAssembler();
+    private final CourseFactory courseFactory = new CourseFactory();
 
     public Course createCourse(CourseRequest courseRequest) throws InvalidParameterException {
         Course course = courseFactory.createCourse(courseRequest.title, courseRequest.description, courseRequest.code);

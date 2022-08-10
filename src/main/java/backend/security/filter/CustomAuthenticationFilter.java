@@ -67,7 +67,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             throws IOException, ServletException {
 
         User user = new User(authentication.getPrincipal().toString(), authentication.getCredentials().toString(),
-                (Collection<? extends GrantedAuthority>) authentication.getAuthorities());
+                authentication.getAuthorities());
 
         // Must place secret in an env variable as encrypted.
         Algorithm algorithm = FilterUtil.getAlgorithm();

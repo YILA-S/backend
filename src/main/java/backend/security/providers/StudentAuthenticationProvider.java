@@ -17,7 +17,7 @@ public class StudentAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private StudentService studentService;
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

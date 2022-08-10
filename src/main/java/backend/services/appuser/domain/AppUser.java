@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class AppUser {
-    private String id;
-    private String firstName;
-    private String lastName;
-    private LocalDate birthDate;
-    private String email;
-    private String phone;
-    private String address;
-    private String password;
+    private final String id;
+    private final String firstName;
+    private final String lastName;
+    private final LocalDate birthDate;
+    private final String email;
+    private final String phone;
+    private final String address;
+    private final String password;
     private Collection<Role> roles = new ArrayList<>();
 
     public AppUser(String firstName, String lastName, LocalDate birthDate, String email, String phone,

@@ -1,15 +1,16 @@
-package backend.services.student;
+package backend.services.manager;
 
 import backend.exception.ItemNotFoundException;
-import backend.services.role.Role;
-import backend.services.student.domain.Student;
-import backend.services.student.infra.MongoStudentRepo;
-import backend.services.student.infra.StudentModel;
-import backend.services.student.infra.StudentModelAssembler;
 import backend.services.appuser.domain.AppUser;
 import backend.services.appuser.domain.AppUserFactory;
+import backend.services.manager.domain.Manager;
+import backend.services.manager.infra.ManagerModel;
+import backend.services.manager.infra.ManagerModelAssembler;
+import backend.services.manager.infra.MongoManagerRepository;
+import backend.services.role.Role;
 import backend.ui.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,12 +22,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Service("managerService")
+@Qualifier("managerDetailService")
+public class ManagerServices implements UserDetailsService {
 
-@Service("studentService")
-public class StudentService implements UserDetailsService{
     @Autowired
-    private MongoStudentRepo studentRepository;
-    private final StudentModelAssembler userModelAssembler = new StudentModelAssembler();
+    private MongoManagerRepository managerRepository;
+    private final ManagerModelAssembler managerModelAssembler = new ManagerModelAssembler();
     private final AppUserFactory userFactory = new AppUserFactory();
 
     public AppUser create(UserRequest userRequest) throws Exception {
@@ -35,50 +37,49 @@ public class StudentService implements UserDetailsService{
                 userRequest.lastName, userRequest.birthDate, userRequest.email, userRequest.phone,
                 userRequest.address, userRequest.firstName, userRequest.password
         );
-        newUser.addRole(Role.STUDENT);
-        StudentModel newUserModel = userModelAssembler.toStudentModel(newUser);
+        newUser.addRole(Role.ADMIN);
+        ManagerModel managerModel = managerModelAssembler.toMangerModel(newUser);
 
-        studentRepository.save(newUserModel);
+        managerRepository.save(managerModel);
 
         return newUser;
     }
 
-    public Student findById(String studentId) {
-        var found = studentRepository.findById(studentId);
-        if(found.isEmpty()) throw new ItemNotFoundException(String.format("Student with Id : %s not found", studentId));
-        return userModelAssembler.toStudent(found.get());
+    public Manager findById(String managerId) {
+        var found = managerRepository.findById(managerId);
+        if(found.isEmpty()) throw new ItemNotFoundException(String.format("Student with Id : %s not found", managerId));
+        return managerModelAssembler.toManager(found.get());
     }
 
-    public Student findByEmail(String email) {
-        var found = studentRepository.findByEmail(email);
+    public Manager findByEmail(String email) {
+        var found = managerRepository.findByEmail(email);
         if(found == null) throw new ItemNotFoundException(String.format("Student with email : %s not found", email));
-        return userModelAssembler.toStudent(found);
+        return managerModelAssembler.toManager(found);
     }
 
     public void deleteAll(){
-        studentRepository.deleteAll();
+        managerRepository.deleteAll();
     }
 
     public void deleteById(String userId){
-        studentRepository.deleteById(userId);
+        managerRepository.deleteById(userId);
     }
 
-    public List<StudentModel> getAllStudents() {
-        return studentRepository.findAll();
+    public List<ManagerModel> getAllStudents() {
+        return (List<ManagerModel>) managerRepository.findAll();
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // Username equivalent to email !!
-        Student student = findByEmail(username);
-        if(student == null)
+        Manager manager = findByEmail(username);
+        if(manager == null)
             throw new ItemNotFoundException(String.format("User with userName %s not found", username));
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        student.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.name())));
+        manager.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.name())));
 
-        return new User(student.getEmail(), student.getPassword(), authorities);
-
+        return new User(manager.getEmail(), manager.getPassword(), authorities);
     }
 }
